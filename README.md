@@ -1,2 +1,42 @@
-# court-eyes
-Real-time basketball tracking system using YOLOv8 and Python
+# CourtEyes 🏀
+
+> Real-time basketball tracking system using YOLOv8 and Python
+
+---
+
+## 프로젝트 소개
+
+농구 경기에서 골인, 리바운드, 파울, 타임아웃, 볼 아웃 등 다양한 상황이 발생할 때마다 득점 반영, 샷클락 리셋, 메인클락 조정을 아직까지 사람이 직접 수동으로 처리하고 있다.
+
+**CourtEyes**는 컴퓨터 비전을 활용해 이 과정을 자동화하는 시스템이다. 카메라로 경기 상황을 실시간으로 분석하여 공의 움직임과 골인 여부를 판정하고, 샷클락과 메인클락을 자동으로 설정 및 관리한다.
+
+---
+
+## 주요 기능
+
+- **골인 판정** — 공이 골대를 통과하는 순간을 자동 감지하여 득점 반영
+- **샷클락 자동 관리** — 공을 잡거나 던지는 순간을 인식하여 샷클락 자동 리셋
+- **메인클락 관리** — 경기 상황(볼 아웃, 파울 등)에 따라 클락 자동 조정
+- **실시간 점수판** — 득점 및 시간을 실시간으로 화면에 표시
+
+---
+
+## 기술 스택
+
+| 분류 | 기술 |
+|------|------|
+| Language | Python |
+| Detection | YOLOv8 (Ultralytics) |
+| Tracking | ByteTrack |
+| Camera | OpenCV, IP Webcam |
+| UI | PyQt5 |
+
+---
+
+## 개발 계획
+
+| 기간 | 내용 |
+|------|------|
+| ~ 5/25 | 데이터셋 확보 및 YOLOv8 fine-tuning |
+| ~ 6/1 | 골인 판정 및 궤적 분석 알고리즘 구현 |
+| ~ 6/7 | 클락 자동화 및 점수판 UI 연동, 데모 준비 |
