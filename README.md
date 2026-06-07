@@ -2,7 +2,7 @@
 
 > Real-time basketball goal detection system using YOLOv8 and Python
 
-![CourtEyes Demo](gifs/courteye1.gif)
+![CourtEyes Demo](gifs/courteye1_small.gif)
 
 ---
 
