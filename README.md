@@ -44,11 +44,13 @@
 
 ### ✅ 골인 정상 판정 (Real Goals)
 
-|                           |                           |                           |
-| ------------------------- | ------------------------- | ------------------------- |
-| ![](gifs/real_goals1.gif) | ![](gifs/real_goals2.gif) | ![](gifs/real_goals3.gif) |
-| ![](gifs/real_goals4.gif) |                           |                           |
+![](gifs/real_goals1.gif)
 
+![](gifs/real_goals2.gif)
+
+![](gifs/real_goals3.gif)
+
+![](gifs/real_goals4.gif)
 ### ✅ 노골 정상 판정 (Real Not Goals)
 
 ![](gifs/real_not_goals.gif)
