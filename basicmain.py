@@ -2,20 +2,17 @@ from ultralytics import YOLO
 import cv2
 
 model = YOLO("best.pt")
-cap = cv2.VideoCapture("컴비플젝2.mov")
+cap = cv2.VideoCapture("test_video.mp4")
 
 score = {"home": 0, "away": 0}
 ball_prev_y = None
-goal_cooldown = 0
 
 
 def detect_goal(ball_x, ball_y, rim_x, rim_y, rim_width, ball_prev_y):
     if ball_prev_y is None:
         return False
-    # 공이 림 근처에서 마지막으로 보였고 (위에서 50픽셀 이내)
-    # 현재 림 아래에 있으면 골인
-    if abs(ball_x - rim_x) < rim_width:
-        if ball_prev_y < rim_y + 50 and ball_y > rim_y:
+    if abs(ball_x - rim_x) < rim_width // 2:
+        if ball_prev_y < rim_y and ball_y > rim_y:
             return True
     return False
 
@@ -25,7 +22,7 @@ while cap.isOpened():
     if not ret:
         break
 
-    results = model.track(frame, persist=True, verbose=False, conf=0.7, imgsz=1280)
+    results = model(frame, verbose=False)
 
     ball_box = None
     rim_box = None
@@ -50,9 +47,8 @@ while cap.isOpened():
                     (0, 165, 255),
                     2,
                 )
-            elif cls == 2:  # rim
-                rim_w = x2 - x1
-                rim_box = (cx, cy, rim_w)
+            elif cls == 2:
+                rim_box = (cx, cy, x2 - x1)
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
                 cv2.putText(
                     frame,
@@ -67,28 +63,12 @@ while cap.isOpened():
     if ball_box and rim_box:
         ball_x, ball_y = ball_box
         rim_x, rim_y, rim_width = rim_box
-        print(
-            f"ball: ({ball_x}, {ball_y}) rim: ({rim_x}, {rim_y}) diff_x: {abs(ball_x-rim_x)} rim_width: {rim_width}"
-        )
         if detect_goal(ball_x, ball_y, rim_x, rim_y, rim_width, ball_prev_y):
-            if goal_cooldown == 0:
-                score["home"] += 2
-                print(f"GOAL! Score: {score}")
-                goal_cooldown = 90
-                ball_prev_y = None  # 리셋
+            score["home"] += 2
+            print(f"GOAL! Score: {score}")
 
-    if goal_cooldown > 0:
-        goal_cooldown -= 1
+    ball_prev_y = ball_y
 
-    if ball_box:
-        new_x = ball_box[0]
-        new_y = ball_box[1]
-        if ball_prev_y is None or (
-            abs(new_y - ball_prev_y) < 100 and abs(new_x - (ball_prev_x or new_x)) < 300
-        ):
-            if rim_box is None or new_y < rim_box[1]:
-                ball_prev_y = new_y
-                ball_prev_x = new_x
     cv2.putText(
         frame,
         f"Home: {score['home']}  Away: {score['away']}",
